@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M84E4G8B91"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-M84E4G8B91');
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Masquerade: Learning from In-the-wild Human Videos using Data-Editing">
+  <meta name="keywords" content="Learning from Human Videos">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Masquerade</title>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/logo.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">Masquerade: Learning from In-the-wild Human Videos using
+            Data-Editing</h1>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="dollyzoom" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/large_video_grid.mp4"
+                type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <!-- <div class="columns is-centered has-text-centered"> -->
+        <div class="row">
+          <!-- <h2 class="title is-3">Abstract</h2> -->
+          <div class="content has-text-justified">
+            <p>
+              Robotics research continues to be constrained by data scarcity. 
+              Even the largest robot datasets are orders of magnitude smaller and less diverse than the datasets that have driven recent progress in language and vision. 
+              At the same time, the internet contains an abundance of egocentric human videos—capturing real-world, long-horizon manipulation skills in diverse settings. 
+              The challenge is that these videos do not contain any action labels, and they depict humans, not robots, leading to a large visual embodiment gap. 
+              <b>Masquerade</b> addresses this gap by transforming in-the-wild human videos into visually consistent “robotized” demonstrations, and then using them, in combination with real robot data, to train robust manipulation policies that generalize to unseen environments.
+            </p>
+
+          </div>
+        </div>
+      <!-- </div> -->
+      <!--/ Abstract. -->
+    </div>
+  </section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Section Title -->
+    <h2 class="title">Approach</h2>
+    <img src="./static/images/method.png" style="max-width: 100%; height: auto;" alt="Pipeline" class="pipeline-image">
+    <p>Masquerade first edits in-the-wild human videos to bridge the visual embodiment gap between humans and robots.</p>
+    <ol style="margin-left: 2rem;">
+      <li><em>Hand pose estimation.</em> Estimate left/right hand trajectories in each frame.</li>
+      <li><em>Inpainting.</em> Remove human embodiment from each frame.</li>
+      <li><em>Robot overlay.</em> Insert a rendered bimanual robot whose end-effectors follow the estimated trajectories.</li>
+    </ol>
+    <p class="mt-4">
+      We <strong>pre-train</strong> a ViT-based encoder on the edited clips to predict future robot keypoints, then <strong>co-train</strong> it with a diffusion-policy head on <strong>50 robot demonstrations from only one scene</strong>, continuing the pre-training objective during policy learning.
+    </p>
+    
+    <div style="margin: 2rem 0;"></div>
+
+    <h5 class="title is-5">Edited Videos </h5>
+          <p>
+        Below we show some sample edited videos from the <a href="https://epic-kitchens.github.io/2025" target="_blank">Epic Kitchens</a> dataset. 
+      </p>
+
+    <div class="task-tabs-container has-text-centered">
+      <div class="task-tabs">
+        <button class="tab active" onclick="showTask('mix', this)">Mix</button>
+        <button class="tab" onclick="showTask('scoop', this)">Scoop</button>
+        <button class="tab" onclick="showTask('cut', this)">Cut</button>
+        <button class="tab" onclick="showTask('pourscrape', this)">Scrape</button>
+        <button class="tab" onclick="showTask('pour', this)">Pour</button>
+        <button class="tab" onclick="showTask('put', this)">Put</button>
+      </div>
+    </div>
+    <div class="task-content">
+      <!-- <div class="rollout-grid tab-content" id="take">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P01_P01_01_36_take_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P01_P01_01_36_take.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div> -->
+
+      <div class="rollout-grid tab-content" id="mix"">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P01_P01_01_55_mix_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P01_P01_01_55_mix.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="rollout-grid tab-content" id="scoop" style="display: none;">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P15_P15_08_84_scoop_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P15_P15_08_84_add.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="rollout-grid tab-content" id="pourscrape" style="display: none;">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P07_P07_03_15_pour_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P07_P07_03_15_pour.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+
+      <div class="rollout-grid tab-content" id="pour" style="display: none;">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P28_P28_109_52_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P28_P28_109_52_pour.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="rollout-grid tab-content" id="cut" style="display: none;">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P01_P01_14_90_cut_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P01_P01_14_90_cut.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="rollout-grid tab-content" id="put" style="display: none;">
+        <div class="rollout-col">
+          <h4>Original Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_original_videos/P01_P01_01_20_put_ori.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rollout-col">
+          <h4>Edited Video</h4>
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/epic_videos/P01_P01_01_20_put.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+
+      <!-- <h2 class="subtitle"></h2>
+        <strong>Overview of our data-editing pipeline for learning robot policies from human videos.</strong> During training, we first estimate the hand pose in each frame of a human video demonstration and convert it into a robot action. We then remove the human hand using inpainting and overlay a virtual robot in its place. The resulting augmented dataset is used to train an imitation learning policy, &pi;. At test time, we overlay a virtual robot on real robot observations to ensure visual consistency, enabling direct deployment of the learned policy on a real robot. -->
+
+      <!-- <div class="column has-text-centered mt-6"></div> -->
+      <!-- Robot Agnostic. -->
+      <!-- <div class="row">
+        <div class="content">
+          <p>
+            <strong>Robot agnostic:</strong> As shown below, each human video can be converted into a robot demonstration for any robot capable of completing the task. In our experiments, we evaluate our method on two different robots: Franka and Kinova Gen3 (both with robotiq gripper).
+          </p>
+          <video id="dollyzoom" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/multi_robots.mov"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div> -->
+      <!--/ Robot Agnostic. -->
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title">Real-world Experiments</h2>
+      <p style="margin-bottom: 1rem;">
+        We evaluate Masquerade on three long-horizon, bimanual kitchen tasks. Each policy is trained on demonstrations from a single scene and tested in three OOD scenes. Videos are at 5x speed.
+      </p>
+
+      <p style="margin-bottom: 1rem; color: #888888; font-size: 0.9rem;">
+        (The stop-and-go motion arises from action chunking in Diffusion Policy. While it can be reduced by compensating for model inference latency during rollouts, execution speed was not the focus of this work.)
+      </p>
+
+    <!-- Task 1 -->
+    <div class="content">
+      <h4 class="title is-5">Stack the pots</h4>
+      <div class="video-container-2">
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/sp_id_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">In-Distribution</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/sp_ood1_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #1</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/sp_ood2_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #2</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/sp_ood3_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #3</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2 -->
+    <div class="content">
+      <h3 class="title is-5">Scrape the potato into the pot</h3>
+      <div class="video-container-2">
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/potato_id_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">In-Distribution</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/potato_ood1_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #1</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/potato_ood2_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #2</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/potato_ood3_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #3</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="content">
+      <h3 class="title is-5">Sweep the chilis into the bowl</h3>
+      <div class="video-container-2">
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/chilis_id_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">In-Distribution</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/chilis_ood1_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #1</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/chilis_ood2_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #2</p>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/rollout_videos/chilis_ood3_fast.mp4" type="video/mp4">
+          </video>
+          <p class="caption">OOD #3</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+  function showTask(taskId, btn) {
+    // Hide all tab content
+    const allContents = document.querySelectorAll('.tab-content');
+    allContents.forEach(c => c.style.display = 'none');
+
+    // Show the selected task
+    const selected = document.getElementById(taskId);
+    if (selected) {
+      selected.style.display = 'flex';
+    }
+
+    // Remove 'active' from all buttons
+    const allTabs = document.querySelectorAll('.tab');
+    allTabs.forEach(tab => tab.classList.remove('active'));
+
+    // Add 'active' to the clicked button
+    btn.classList.add('active');
+  }
+</script>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title">Results</h2>
+    <h5 class="title is-5">OOD scene</h5>
+    <p>
+      We compare our method to three existing vision representations: (1) <a href="https://hrp-robot.github.io/">HRP</a>, a model that was finetuned on 150K egocentric in-the-wild human videos, (2) ImageNet, and (3) DINOv2. We evaluate each model over three OOD scenes (10 rollouts per scene, 30 total per method).
+      Masquerade strongly outperforms all baselines in every OOD scene we test by an average of 62 percentage points (12% to 74%).
+    </p>
+    <div style="text-align: center;">
+      <img src="./static/images/results_mean.png"
+           class="results-image"
+           style="max-width: 90%; height: auto;"
+           alt="Comparison to baselines."/>
+    </div>
+
+    <div style="margin: 2rem 0;"></div>
+
+    <h5 class="title is-5">Ablation Study</h5>
+    <p>
+      We evaluate the importance of two components—editing human videos with robot overlays and co-training on both human and robot data—by systematically removing each.
+      In one variant, we replaced edited clips with the original, unmodified human videos while keeping all other settings identical. In another, we removed co-training, fine-tuning only on robot demonstrations.
+      Both changes resulted in substantial drops in performance, showing that explicit visual editing and continued co-training are essential for Masquerade’s performance.
+    </p>
+    <table style="width: 100%; border: none; border-spacing: 2rem;">
+      <tr>
+        <td style="width: 50%; text-align: center; border: none;">
+          <img src="./static/images/ablation_overlay_and_cotrain.png"
+               style="width: 100%; max-width: 500px; height: auto; border-radius: 1px;"
+               alt="Ablation: Overlay and Co-training"/>
+        </td>
+        <td style="width: 50%; text-align: center; border: none;">
+          <img src="./static/images/ablation_data_scale.png"
+               style="width: 94%; max-width: 500px; height: auto; border-radius: 1px;"
+               alt="Ablation: Data Scale"/>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      To confirm the contribution of edited human videos to policy learning, we measured performance as a function of the amount of co-training data. 
+      As the figure above (right) shows, success rates rise steadily with more human-video data.
+      This clear upward trend demonstrates that increasing the amount of in-the-wild human videos directly boosts robot performance and suggests further gains could be realized by scaling beyond the current dataset size.
+    </p>
+
+
+    <div style="margin: 2rem 0;"></div>
+    <h5 class="title is-5">I.D. vs O.O.D.</h5>
+    <p>
+      We compare the performance of our method on the original in-distribution training scene and OOD Scene 1 for the Sweep Chilis task. 
+      Unlike all baselines, which suffer large drops, Masquerade maintains similar in-distribution and out-of-distribution performance—demonstrating its robustness to scene shifts.
+    </p>
+    <div style="text-align: center;">
+      <img src="./static/images/IDvsOOD.png"
+           class="results-image"
+           style="max-width: 50%; height: auto;"
+           alt="I.D. vs O.O.D."/>
+    </div>
+
+    <div style="margin: 2rem 0;"></div>
+
+
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-3">
+        <div class="content">
+          <p>
+            Website templated adapted from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
